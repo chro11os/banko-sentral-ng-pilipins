@@ -21,6 +21,13 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    public function run(): void
+    {
+        User::factory()
+            ->count(50)
+            ->hasBalance(200)
+            ->create();
+    }
     public function definition(): array
     {
         return [
