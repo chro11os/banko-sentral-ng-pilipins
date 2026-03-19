@@ -12,6 +12,10 @@ class BalanceSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        for ($i = 1; $i <= 20; $i++) {
+            DB::table('balances')->insert([
+
+            ]);
+        }
     }
 }

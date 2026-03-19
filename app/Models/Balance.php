@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Balance extends Model
 {
-    /** @use HasFactory<\Database\Factories\BalanceFactory> */
-    use HasFactory;
+    protected $fillable = ['user_id', 'amount', 'fee'];
 
-    protected $fillable = ['amount', 'fee', 'user_id'];
-
-    public function user(): BelongsTo {
+    /**
+     * Inverse relationship: every balance belongs to a specific user.
+     */
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 }

@@ -11,47 +11,36 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable;
+
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * The "booted" method handles the mandatory relationship.
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected static function booted(): void
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'two_factor_confirmed_at' => 'datetime',
-        ];
+        static::created(function (User $user) {
+            $user->balances()->create([
+                'amount' => 0, // Using integer for bigInteger storage
+                'fee'    => 0,
+            ]);
+        });
     }
 
-    public function Balance(): HasOne {
-        return $this->hasOne(Balance::class);
+    /**
+     * Defines the "one-to-many" relationship.
+     */
+    public function balances(): HasMany
+    {
+        return $this->hasMany(Balance::class);
+    }
+
+    /**
+     * Convenience method to get the primary/first balance.
+     */
+    public function balance(): HasOne
+    {
+        return $this->hasOne(Balance::class)->oldestOfMany();
     }
 }

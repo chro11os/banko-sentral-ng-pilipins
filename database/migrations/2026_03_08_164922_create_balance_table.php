@@ -6,25 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->bigInteger('amount');
+            $table->bigInteger('amount'); // Storing in cents/smallest unit
             $table->integer('fee');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('balance');
+        Schema::dropIfExists('balances'); // Fixed: name must match the created table
     }
 };
