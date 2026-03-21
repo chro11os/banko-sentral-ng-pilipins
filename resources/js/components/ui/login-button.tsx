@@ -14,7 +14,7 @@ export default function LoginButton () {
         <form onSubmit={submit}>
             <button
                 type="submit"
-                className="bg-brand-red rounded-xs text-brand-cream shadow-md p-3 font-sans"
+                className="bg-brand-red rounded-xs text-brand-cream shadow-md p-3 font-sans hover:bg-red-900"
             >
                 Login
             </button>

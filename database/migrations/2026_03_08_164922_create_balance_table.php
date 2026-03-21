@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->bigInteger('amount'); // Storing in cents/smallest unit
+            $table->bigInteger('amount');
             $table->integer('fee');
             $table->timestamps();
         });
