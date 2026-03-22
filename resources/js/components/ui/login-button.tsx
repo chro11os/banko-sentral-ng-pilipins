@@ -1,13 +1,24 @@
 import { useForm } from '@inertiajs/react';
+import routing from '@/actions/Illuminate/Routing';
 export default function LoginButton () {
-    const {data, setData, post, processing, errors} = useForm({
+
+    interface LoginData {
+        email: string;
+        password: string;
+        remember: boolean;
+    }
+
+    const {data, setData, post, processing, errors, reset} = useForm({
         email:'',
         password:'',
+        remember: false,
     });
 
-    const submit = (e: any) => {
+    const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/login');
+        post('login'),{
+           onFinish: () => reset('password')
+        };
     }
 
     return (
